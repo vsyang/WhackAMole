@@ -31,12 +31,14 @@ class Mole(arcade.Sprite):
         self.center_x, self.center_y = position
         self.alpha = 255
         self.is_visible = True
+        self.visible_time = 0.0
 
     def hide(self):
         self.center_x = -100
         self.center_y = -100
         self.alpha = 0
         self.is_visible = False
+        self.visible_time = 0.0
 
 # main class that defines what the user will view once everything is loaded and ready
 class MainGame(arcade.Window):
@@ -53,12 +55,15 @@ class MainGame(arcade.Window):
         self.waiting_to_spawn = False
         self.spawn_delay = 2.0
         self.time_since_click = 0.0
+        self.mole_time = 2.0
 
     # Initialize the game. This function will create 6 random Sprite appearances
     def setup(self):
         self.mole_list = arcade.SpriteList()
         self.score = 0
         self.level = 1
+        self.spawn_delay = 2.0
+        self.mole_time = 2.0
 
         for _ in range(6):
             is_real = random.choice([True, False])
@@ -85,6 +90,15 @@ class MainGame(arcade.Window):
                 self.waiting_to_spawn = False
                 self.time_since_click = 0.0
                 self.spawn_random_mole()
+                self.check_level()
+
+    # Function that will check level of player and increase challenge
+    def check_level(self):
+        new_level = self.score // 4 + 1
+        if new_level > self.level:
+            self.level = new_level
+            
+            self.spawn_delay = max(0.5, self.spawn_delay - 0.2)
 
     # function for moles/bunnies to randomly pop out of their holes. If a bunny pops up, a mole will also pop out so user does not lose points being forced to click bunny
     def spawn_random_mole(self):
