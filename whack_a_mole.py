@@ -41,7 +41,7 @@ class Mole(arcade.Sprite):
 # main class that defines what the user will view once everything is loaded and ready
 class MainGame(arcade.Window):
 
-    # function will set the stage, and control when the next Sprite will pop out
+    # function will set the stage with empty variables ready to be used
     def __init__(self, width, height, title):
         super().__init__(width, height, title)
         arcade.set_background_color(arcade.color.AMAZON)
@@ -56,7 +56,10 @@ class MainGame(arcade.Window):
         self.active_timer = 0.0
         self.state = "WAITING"
 
-    # Initialize the game. This function will create random Sprite appearances
+        self.score_text = None
+        self.level_text = None
+
+    # Initialize the game.
     def setup(self):
         self.mole_list = arcade.SpriteList()
         self.score = 0
@@ -71,16 +74,17 @@ class MainGame(arcade.Window):
             mole = Mole(image, MOLE_SCALE, is_real)
             self.mole_list.append(mole)
 
+        self.score_text = arcade.Text(f"Score: {self.score}", 10, HEIGHT - 30, arcade.color.WHITE, 20)
+        self.level_text = arcade.Text(f"Level: {self.level}", 10, HEIGHT - 60, arcade.color.WHITE, 15)
+
     # Function will show user their score and level
     def on_draw(self):
         self.clear()
-
-        arcade.draw_text(f"Score: {self.score}", 10, HEIGHT - 30, arcade.color.WHITE, 20)
-        arcade.draw_text(f"Level: {self.level}", 10, HEIGHT - 60, arcade.color.WHITE, 15)
-
+        self.score_text.draw()
+        self.level_text.draw()
         self.mole_list.draw()
 
-    # Function that checks timing
+    # Function that checks timing; how long between moles popping out and how long moles are available for user to click before disappearing
     def on_update(self, delta_time):
         if self.state == "WAITING":
             self.spawn_timer += delta_time
@@ -98,7 +102,7 @@ class MainGame(arcade.Window):
                 self.update_level()
 
 
-    # function for moles/bunnies to randomly pop out of their holes. If a bunny pops up, a mole will also pop out so user does not lose points being forced to click bunny
+    # Function for moles/bunnies to randomly pop out of their holes.
     def spawn_random_moles(self):
         for mole in self.mole_list:
             mole.hide()
@@ -120,18 +124,6 @@ class MainGame(arcade.Window):
         for i in range(min(count, len(hidden), len(positions))):
             hidden[i].pop_out(positions[i])
 
-        # first = random.choice(self.mole_list)
-        # first_position = random.choice(HOLES)
-        # first.pop_out(first_position)
-
-        # if not first.is_real:
-
-        #     if moles_hidden:
-        #         second = random.choice(moles_hidden)
-
-        #         new_positions = [np for np in HOLES if np != first_position]
-        #         second_position = random.choice(new_positions)
-        #         second.pop_out(second_position)
 
     # function that will increase score when mole is hit or decrease score if bunny is hit
     def on_mouse_press(self, x, y, button, modifiers):
@@ -143,12 +135,13 @@ class MainGame(arcade.Window):
                     self.score -= 1
                 mole.hide()
 
+        self.score_text.text = f"Score: {self.score}"
+        self.level_text.text = f"Level: {self.level}"
+    
     # Function that will check level of player and increase challenge
     def update_level(self):
         self.level = self.score // 5 + 1
-        self.display_timer = max(1.0 , 2.0 - (self.level - 1) * 0.1)
-            
-
+        self.display_timer = max(1.0, 2.0 - (self.level -1) * 0.1)
 # function to start
 def main():
     game = MainGame(WIDTH, HEIGHT, TITLE)
