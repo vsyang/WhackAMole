@@ -89,7 +89,7 @@ class GameView(arcade.View):
         # create the streaming button at the top left
         self.button_sprites.append(
             SoundButton(
-                ":resources:music/funkyrobot.mp3",
+                ":resources:music/themesong.mp3",
                 pan=-1.0,
                 volume=0.1,
                 center_x=BUTTON_X_POSITIONS[0],
@@ -106,7 +106,7 @@ class GameView(arcade.View):
             for pan_setting, x_pos in zip(SOUND_PANNING, BUTTON_X_POSITIONS):
                 self.button_sprites.append(
                     SoundButton(
-                        ":resources:sounds/upgrade4.wav",
+                        ":resources:sounds/explosion2.wav",
                         pan_setting,
                         vol,
                         x_pos,

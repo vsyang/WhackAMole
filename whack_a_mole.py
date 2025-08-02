@@ -125,7 +125,7 @@ class MainGame(arcade.Window):
             hidden[i].pop_out(positions[i])
 
 
-    # function that will increase score when mole is hit or decrease score if bunny is hit
+    # Function that will increase score when mole is hit or decrease score if bunny is hit
     def on_mouse_press(self, x, y, button, modifiers):
         for mole in self.mole_list:
             if mole.is_visible and mole.collides_with_point((x, y)):
@@ -137,6 +137,10 @@ class MainGame(arcade.Window):
 
         self.score_text.text = f"Score: {self.score}"
         self.level_text.text = f"Level: {self.level}"
+
+
+
+    # Function for sound effects if time. I liked the jump4 for mole hit, explosion2 for bunny hit, phaseJump1 for clicking empty space, funkyrobot.mp3 for music
     
     # Function that will check level of player and increase challenge
     def update_level(self):
