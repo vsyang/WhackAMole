@@ -7,7 +7,9 @@ TITLE = "Whack A Mole"
 
 MOLE = "./images/mole.png"
 BUNNY = "./images/bunny.png"
-MALLET = "./images/mallet.png"
+MALLET_UP = "./images/mallet_up.png"
+MALLET_DOWN = "./images/mallet_down.png"
+HOLE = "./images/hole.png"
 MOLE_SCALE = 0.5
 
 HOLES = [
@@ -59,8 +61,14 @@ class MainGame(arcade.Window):
         self.score_text = None
         self.level_text = None
 
-    # Initialize the game.
+    # Set-up and initialize the game.
     def setup(self):
+        self.hole_list = arcade.SpriteList()
+        for position in HOLES:
+            hole = arcade.Sprite(HOLE, MOLE_SCALE)
+            hole.center_x, hole.center_y = position
+            self.hole_list.append(hole)
+
         self.mole_list = arcade.SpriteList()
         self.score = 0
         self.level = 1
@@ -80,6 +88,7 @@ class MainGame(arcade.Window):
     # Function will show user their score and level
     def on_draw(self):
         self.clear()
+        self.hole_list.draw()
         self.score_text.draw()
         self.level_text.draw()
         self.mole_list.draw()
@@ -147,6 +156,7 @@ class MainGame(arcade.Window):
         self.level = self.score // 5 + 1
         self.display_timer = max(1.0, 2.0 - (self.level -1) * 0.1)
 # function to start
+
 def main():
     game = MainGame(WIDTH, HEIGHT, TITLE)
     game.setup()
