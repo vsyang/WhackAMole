@@ -65,6 +65,8 @@ class MainGame(arcade.Window):
         self.mallet_up = None
         self.mallet_down = None
         self.mouse_pressed = False
+        # self.set_mouse_visible(False)
+
     # Set-up and initialize the game.
     def setup(self):
         self.hole_list = arcade.SpriteList()
@@ -90,9 +92,13 @@ class MainGame(arcade.Window):
         self.level_text = arcade.Text(f"Level: {self.level}", 10, HEIGHT - 60, arcade.color.WHITE, 15)
 
         self.mallet = arcade.Sprite(MALLET_UP, MOLE_SCALE)
+        self.mallet.append_texture(arcade.load_texture(MALLET_DOWN))
         self.mallet.center_x = WIDTH // 2
         self.mallet.center_y = HEIGHT // 2
-        self.mallet.append_texture(arcade.load_texture(MALLET_DOWN))
+
+        self.mallet_list = arcade.SpriteList()
+        self.mallet_list.append(self.mallet)
+
 
     # Function will show user their score and level, draw holes, draw the moles/bunnies, and the mallets
     def on_draw(self):
@@ -102,7 +108,7 @@ class MainGame(arcade.Window):
         self.level_text.draw()
         self.mole_list.draw()
         print(type(self.mallet))
-        self.mallet.draw()
+        self.mallet_list.draw()
 
     # Function that checks timing; how long between moles popping out and how long moles are available for user to click before disappearing
     def on_update(self, delta_time):
