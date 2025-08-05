@@ -89,13 +89,10 @@ class MainGame(arcade.Window):
         self.score_text = arcade.Text(f"Score: {self.score}", 10, HEIGHT - 30, arcade.color.WHITE, 20)
         self.level_text = arcade.Text(f"Level: {self.level}", 10, HEIGHT - 60, arcade.color.WHITE, 15)
 
-        self.mallet_up = arcade.load_texture(MALLET_UP)
-        self.mallet_down = arcade.load_texture(MALLET_DOWN)
-        self.mallet = arcade.Sprite()
-        self.mallet.texture = self.mallet_up
-        self.mallet.scale = 0.5
+        self.mallet = arcade.Sprite(MALLET_UP, MOLE_SCALE)
         self.mallet.center_x = WIDTH // 2
         self.mallet.center_y = HEIGHT // 2
+        self.mallet.append_texture(arcade.load_texture(MALLET_DOWN))
 
     # Function will show user their score and level, draw holes, draw the moles/bunnies, and the mallets
     def on_draw(self):
@@ -104,6 +101,7 @@ class MainGame(arcade.Window):
         self.score_text.draw()
         self.level_text.draw()
         self.mole_list.draw()
+        print(type(self.mallet))
         self.mallet.draw()
 
     # Function that checks timing; how long between moles popping out and how long moles are available for user to click before disappearing
@@ -150,7 +148,7 @@ class MainGame(arcade.Window):
     # Function that will increase score when mole is hit or decrease score if bunny is hit
     def on_mouse_press(self, x, y, button, modifiers):
         self.mouse_pressed = True
-        self.mallet = self.mallet_down
+        self.mallet.set_texture(1) 
 
         for mole in self.mole_list:
             if mole.is_visible and mole.collides_with_point((x, y)):
@@ -166,8 +164,12 @@ class MainGame(arcade.Window):
     # Function for when mouse is clicked then released
     def on_mouse_release(self, x, y, button, modifiers):
         self.mouse_pressed = False
-        self.mallet.texture = self.mallet_up
+        self.mallet.set_texture(0)
 
+    # Function for when mouse is in motion
+    def on_mouse_motion(self, x, y, dx, dy):
+        self.mallet.center_x = x
+        self.mallet.center_y = y
 
 
     # Function for sound effects if time. I liked the jump4 for mole hit, explosion2 for bunny hit, phaseJump1 for clicking empty space, funkyrobot.mp3 for music
@@ -176,8 +178,7 @@ class MainGame(arcade.Window):
     def update_level(self):
         self.level = self.score // 5 + 1
         self.display_timer = max(1.0, 2.0 - (self.level -1) * 0.1)
-# function to start
-
+# Function to start
 def main():
     game = MainGame(WIDTH, HEIGHT, TITLE)
     game.setup()
