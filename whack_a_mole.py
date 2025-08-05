@@ -1,5 +1,6 @@
 import arcade
 import random
+import math
 
 WIDTH = 800
 HEIGHT = 600
@@ -11,6 +12,7 @@ MALLET_UP = "./images/mallet_up.png"
 MALLET_DOWN = "./images/mallet_down.png"
 HOLE = "./images/hole.png"
 MOLE_SCALE = 0.5
+RADIUS = 70
 
 HOLES = [
     (150, 150), 
@@ -65,7 +67,7 @@ class MainGame(arcade.Window):
         self.mallet_up = None
         self.mallet_down = None
         self.mouse_pressed = False
-        # self.set_mouse_visible(False)
+        self.set_mouse_visible(False)
 
     # Set-up and initialize the game.
     def setup(self):
@@ -76,28 +78,37 @@ class MainGame(arcade.Window):
             self.hole_list.append(hole)
 
         self.mole_list = arcade.SpriteList()
-        self.score = 0
-        self.level = 1
-        self.spawn_timer = 0.0
-        self.active_timer = 0.0
-        self.state = "WAITING"
-
         for _ in range(12):
             is_real = random.choice([True, False])
             image = MOLE if is_real else BUNNY
             mole = Mole(image, MOLE_SCALE, is_real)
             self.mole_list.append(mole)
-
-        self.score_text = arcade.Text(f"Score: {self.score}", 10, HEIGHT - 30, arcade.color.WHITE, 20)
-        self.level_text = arcade.Text(f"Level: {self.level}", 10, HEIGHT - 60, arcade.color.WHITE, 15)
+        
+        self.score = 0
+        self.level = 1
+        self.spawn_timer = 0.0
+        self.active_timer = 0.0
+        self.state = "WAITING"
+        self.score_text = arcade.Text(f"Score: {self.score}", 10, HEIGHT - 50, arcade.color.WHITE, 36)
+        self.level_text = arcade.Text(f"Level: {self.level}", 10, HEIGHT - 90, arcade.color.WHITE, 28)
 
         self.mallet = arcade.Sprite(MALLET_UP, MOLE_SCALE)
         self.mallet.append_texture(arcade.load_texture(MALLET_DOWN))
         self.mallet.center_x = WIDTH // 2
         self.mallet.center_y = HEIGHT // 2
-
         self.mallet_list = arcade.SpriteList()
         self.mallet_list.append(self.mallet)
+
+        self.message = arcade.Text(
+            "+1 point = Mole\n-1 point = Bunny",
+            x=WIDTH - 100,
+            y=HEIGHT - 100,
+            color=arcade.color.CAMEO_PINK,
+            font_size=20,
+            anchor_x="center",
+            multiline=True,
+            width=400
+        )
 
 
     # Function will show user their score and level, draw holes, draw the moles/bunnies, and the mallets
@@ -107,8 +118,9 @@ class MainGame(arcade.Window):
         self.score_text.draw()
         self.level_text.draw()
         self.mole_list.draw()
-        print(type(self.mallet))
         self.mallet_list.draw()
+        self.message.draw()
+
 
     # Function that checks timing; how long between moles popping out and how long moles are available for user to click before disappearing
     def on_update(self, delta_time):
@@ -157,12 +169,14 @@ class MainGame(arcade.Window):
         self.mallet.set_texture(1) 
 
         for mole in self.mole_list:
-            if mole.is_visible and mole.collides_with_point((x, y)):
-                if mole.is_real:
-                    self.score += 1
-                else:
-                    self.score -= 1
-                mole.hide()
+            if mole.is_visible:
+                distance = math.hypot(mole.center_x - x, mole.center_y - y)
+                if distance <= RADIUS:
+                    if mole.is_real:
+                        self.score += 1
+                    else:
+                        self.score -= 1
+                    mole.hide()
 
         self.score_text.text = f"Score: {self.score}"
         self.level_text.text = f"Level: {self.level}"
