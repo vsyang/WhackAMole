@@ -149,6 +149,9 @@ class MainGame(arcade.Window):
 
     # Function that will increase score when mole is hit or decrease score if bunny is hit
     def on_mouse_press(self, x, y, button, modifiers):
+        self.mouse_pressed = True
+        self.mallet = self.mallet_down
+
         for mole in self.mole_list:
             if mole.is_visible and mole.collides_with_point((x, y)):
                 if mole.is_real:
@@ -159,6 +162,11 @@ class MainGame(arcade.Window):
 
         self.score_text.text = f"Score: {self.score}"
         self.level_text.text = f"Level: {self.level}"
+
+    # Function for when mouse is clicked then released
+    def on_mouse_release(self, x, y, button, modifiers):
+        self.mouse_pressed = False
+        self.mallet.texture = self.mallet_up
 
 
 
