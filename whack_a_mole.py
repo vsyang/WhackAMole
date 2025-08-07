@@ -73,12 +73,12 @@ class MainGame(arcade.Window):
         self.mouse_pressed = False
         self.set_mouse_visible(False)
 
-        self.plus_point = arcade.load_sound(":resources:sound/jump4.wav")
+        self.plus_point = arcade.load_sound(":resources:sounds/jump4.wav")
         self.minus_point = arcade.load_sound(":resources:sounds/explosion2.wav")
         self.just_click = arcade.load_sound(":resources:sounds/phaseJump1.wav")
 
         self.music = arcade.load_sound(":resources:music/funkyrobot.mp3")
-        self.background_music = arcade.play_sound(self.music, looping=True)
+        self.background_music = self.music.play(loop=True, volume=0.5)
 
     # Set-up and initialize the game.
     def setup(self):
@@ -193,8 +193,9 @@ class MainGame(arcade.Window):
                         arcade.play_sound(self.minus_point)
                     mole.hide()
 
-            if not hit:
-                arcade.play_sound(self.just_click)
+        if hit:
+            arcade.play_sound(self.just_click)
+                
         self.score_text.text = f"Score: {self.score}"
         self.level_text.text = f"Level: {self.level}"
 
