@@ -13,6 +13,10 @@ MALLET_DOWN = "./images/mallet_down.png"
 HOLE = "./images/hole.png"
 MOLE_SCALE = 0.5
 RADIUS = 70
+# SOUND_EFFECTS = [
+#     "jump4.wav", "explosion2.wav"
+# ]
+# MUSIC = "funkyrobot.mp3"
 
 HOLES = [
     (150, 150), 
@@ -48,7 +52,7 @@ class MainGame(arcade.Window):
     # function will set the stage with empty variables ready to be used
     def __init__(self, width, height, title):
         super().__init__(width, height, title)
-        arcade.set_background_color(arcade.color.AMAZON)
+        arcade.set_background_color(arcade.color.CELESTIAL_BLUE)
 
         self.mole_list = None
         self.score = 0
