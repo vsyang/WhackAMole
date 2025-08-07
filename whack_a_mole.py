@@ -104,7 +104,7 @@ class MainGame(arcade.Window):
         self.mallet_list.append(self.mallet)
 
         self.message = arcade.Text(
-            "+1 point = Mole\n-1 point = Bunny",
+            "Don't Hit The Bunny!\n +1 point = mole\n  -1 point = bunny",
             x=WIDTH - 100,
             y=HEIGHT - 100,
             color=arcade.color.CAMEO_PINK,
@@ -144,7 +144,7 @@ class MainGame(arcade.Window):
                 self.update_level()
 
 
-    # Function for moles/bunnies to randomly pop out of their holes.
+    # Function for moles/bunnies to randomly pop out of their holes. Attempted to add difficulty as levels go up
     def spawn_random_moles(self):
         for mole in self.mole_list:
             mole.hide()
