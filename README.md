@@ -29,6 +29,5 @@ I used these links most frequently to help me complete this project:
 
 
 * In the code, I can group and split the functions into separate Python files and import as needed so the code doesn't seem as long and cluttered
-* Adding sound effects for hitting correct and incorrect Sprites
 * Visually make it more appealing to play and not look as basic
 * Start the game with only moles, then start adding bunnies later in the game.

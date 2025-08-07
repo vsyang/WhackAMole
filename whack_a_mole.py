@@ -177,18 +177,24 @@ class MainGame(arcade.Window):
     # Function that will increase score when mole is hit or decrease score if bunny is hit
     def on_mouse_press(self, x, y, button, modifiers):
         self.mouse_pressed = True
-        self.mallet.set_texture(1) 
+        self.mallet.set_texture(1)
+        hit = False 
 
         for mole in self.mole_list:
             if mole.is_visible:
                 distance = math.hypot(mole.center_x - x, mole.center_y - y)
                 if distance <= RADIUS:
+                    hit = True
                     if mole.is_real:
                         self.score += 1
+                        arcade.play_sound(self.plus_point)
                     else:
                         self.score -= 1
+                        arcade.play_sound(self.minus_point)
                     mole.hide()
 
+            if not hit:
+                arcade.play_sound(self.just_click)
         self.score_text.text = f"Score: {self.score}"
         self.level_text.text = f"Level: {self.level}"
 
