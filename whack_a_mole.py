@@ -13,10 +13,10 @@ MALLET_DOWN = "./images/mallet_down.png"
 HOLE = "./images/hole.png"
 MOLE_SCALE = 0.5
 RADIUS = 70
-# SOUND_EFFECTS = [
-#     "jump4.wav", "explosion2.wav"
-# ]
-# MUSIC = "funkyrobot.mp3"
+SOUND_EFFECTS = [
+    "jump4.wav", "explosion2.wav", "phase1jump.wav"
+]
+MUSIC = "funkyrobot.mp3"
 
 HOLES = [
     (150, 150), 
@@ -72,6 +72,13 @@ class MainGame(arcade.Window):
         self.mallet_down = None
         self.mouse_pressed = False
         self.set_mouse_visible(False)
+
+        self.plus_point = arcade.load_sound(":resources:sound/jump4.wav")
+        self.minus_point = arcade.load_sound(":resources:sounds/explosion2.wav")
+        self.just_click = arcade.load_sound(":resources:sounds/phaseJump1.wav")
+
+        self.music = arcade.load_sound(":resources:music/funkyrobot.mp3")
+        self.background_music = arcade.play_sound(self.music, looping=True)
 
     # Set-up and initialize the game.
     def setup(self):
