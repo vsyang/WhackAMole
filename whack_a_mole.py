@@ -78,7 +78,7 @@ class MainGame(arcade.Window):
         self.just_click = arcade.load_sound(":resources:sounds/phaseJump1.wav")
 
         self.music = arcade.load_sound(":resources:music/funkyrobot.mp3")
-        self.background_music = self.music.play(loop=True, volume=0.5)
+        self.background_music = self.music.play(loop=True, volume=0.3)
 
     # Set-up and initialize the game.
     def setup(self):
@@ -129,8 +129,8 @@ class MainGame(arcade.Window):
         self.score_text.draw()
         self.level_text.draw()
         self.mole_list.draw()
-        self.mallet_list.draw()
         self.message.draw()
+        self.mallet_list.draw()
 
 
     # Function that checks timing; how long between moles popping out and how long moles are available for user to click before disappearing
@@ -187,14 +187,14 @@ class MainGame(arcade.Window):
                     hit = True
                     if mole.is_real:
                         self.score += 1
-                        arcade.play_sound(self.plus_point)
+                        arcade.play_sound(self.plus_point, volume=0.6)
                     else:
                         self.score -= 1
-                        arcade.play_sound(self.minus_point)
+                        arcade.play_sound(self.minus_point, volume=0.6)
                     mole.hide()
 
-        if hit:
-            arcade.play_sound(self.just_click)
+        if not hit:
+            arcade.play_sound(self.just_click, volume=0.6)
                 
         self.score_text.text = f"Score: {self.score}"
         self.level_text.text = f"Level: {self.level}"
