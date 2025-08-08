@@ -27,7 +27,7 @@ HOLES = [
     (650, 300) 
 ]
 
-# class to define mole attributes like size, being visible when it pops out, and being hidden
+# class to define mole attributes like being visible when it pops out, and being hidden
 class Mole(arcade.Sprite):
     def __init__(self, image, scale, is_real=True):
         super().__init__(image, scale)
@@ -49,7 +49,7 @@ class Mole(arcade.Sprite):
 # main class that defines what the user will view once everything is loaded and ready
 class MainGame(arcade.Window):
 
-    # function will set the stage with empty variables ready to be used
+    # Method will set the stage with empty variables ready to be used
     def __init__(self, width, height, title):
         super().__init__(width, height, title)
         arcade.set_background_color(arcade.color.CELESTIAL_BLUE)
@@ -122,7 +122,7 @@ class MainGame(arcade.Window):
         )
 
 
-    # Function will show user their score and level, draw holes, draw the moles/bunnies, and the mallets
+    # Method will show user their score and level, draw holes, draw the moles/bunnies, and the mallets
     def on_draw(self):
         self.clear()
         self.hole_list.draw()
@@ -133,7 +133,7 @@ class MainGame(arcade.Window):
         self.mallet_list.draw()
 
 
-    # Function that checks timing; how long between moles popping out and how long moles are available for user to click before disappearing
+    # Method that checks timing; how long between moles popping out and how long moles are available for user to click before disappearing
     def on_update(self, delta_time):
         if self.state == "WAITING":
             self.spawn_timer += delta_time
@@ -151,7 +151,7 @@ class MainGame(arcade.Window):
                 self.update_level()
 
 
-    # Function for moles/bunnies to randomly pop out of their holes. Attempted to add difficulty as levels go up
+    # Method for moles/bunnies to randomly pop out of their holes. Attempted to add difficulty as levels go up
     def spawn_random_moles(self):
         for mole in self.mole_list:
             mole.hide()
@@ -174,7 +174,7 @@ class MainGame(arcade.Window):
             hidden[i].pop_out(positions[i])
 
 
-    # Function that will increase score when mole is hit or decrease score if bunny is hit
+    # Method that will increase score when mole is hit or decrease score if bunny is hit
     def on_mouse_press(self, x, y, button, modifiers):
         self.mouse_pressed = True
         self.mallet.set_texture(1)
@@ -199,20 +199,17 @@ class MainGame(arcade.Window):
         self.score_text.text = f"Score: {self.score}"
         self.level_text.text = f"Level: {self.level}"
 
-    # Function for when mouse is clicked then released
+    # Method for when mouse is clicked then released
     def on_mouse_release(self, x, y, button, modifiers):
         self.mouse_pressed = False
         self.mallet.set_texture(0)
 
-    # Function for when mouse is in motion
+    # Method for when mouse is in motion
     def on_mouse_motion(self, x, y, dx, dy):
         self.mallet.center_x = x
         self.mallet.center_y = y
-
-
-    # Function for sound effects if time. I liked the jump4 for mole hit, explosion2 for bunny hit, phaseJump1 for clicking empty space, funkyrobot.mp3 for music
     
-    # Function that will check level of player and increase challenge
+    # Method that will check level of player and increase challenge
     def update_level(self):
         self.level = self.score // 5 + 1
         self.display_timer = max(1.0, 2.0 - (self.level -1) * 0.1)
