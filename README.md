@@ -4,7 +4,7 @@ I've created a simple game of "Whack-A-Mole." The object of the game is to hit t
 
 My purpose for writing this game is to learn how to use the Arcade library in Python and to gain experience designing and developing a simple interactive game.
 
-[Whack-A-Mole Presentation](http://youtube.link.goes.here)
+[Whack-A-Mole Presentation](https://youtu.be/T3T6V1AfI28)
 
 # Development Environment
 
